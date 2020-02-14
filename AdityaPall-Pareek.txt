@@ -1,3 +1,1 @@
-Adi
-This is a file that is NOT empty.
-This is a file that is NOT empty.Adi is a dumb
+This is a file that is NOT *not* empty.Adi is a dumb
