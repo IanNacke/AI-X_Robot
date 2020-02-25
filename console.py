@@ -1,6 +1,12 @@
 import pygame
+import socket
 
+host = '172.20.10.7';
+port = 65432;
+SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+SOCKET.connect((host,port));
 pygame.init();
+
 
 width = 1200;
 height = 800;
@@ -59,6 +65,8 @@ buttonWidth = 57;
 buttonHeight = 51;
 mouse = pygame.mouse.get_pos();
 click = pygame.mouse.get_pressed();
+sendString = '';
+sendArray = [0,0,0,0];
 def button(x,y):
     mouse = pygame.mouse.get_pos();
     click = pygame.mouse.get_pressed();
@@ -99,20 +107,37 @@ while not crashed:
                 dKeyDown = False;
         if wButtonDown or wKeyDown:
             wDown = True;
+            sendString = 'F'
+            sendArray[0] = 1;
         elif not wButtonDown and not wKeyDown:
             wDown = False;
+            sendString = '0'
+            sendArray[0] = 0;
         if aButtonDown or aKeyDown:
             aDown = True;
+            sendString = sendString + 'L';
+            sendArray[1] = 1;
         elif not aButtonDown and not aKeyDown:
             aDown = False;
+            sendString = sendString + '0';
+            sendArray[1] = 0;
         if sButtonDown or sKeyDown:
             sDown = True;
+            sendString = sendString + 'B';
+            sendArray[2] = 1;
         elif not sButtonDown and not sKeyDown:
             sDown = False;
+            sendString = sendString + '0';
+            sendArray[2] = 0;
         if dButtonDown or dKeyDown:
             dDown = True;
+            sendString = sendString + 'R';
+            sendArray[3] = 1;
         elif not dButtonDown and not dKeyDown:
             dDown = False;
+            sendString = sendString + '0';
+            sendArray[3] = 0;
+        SOCKET.sendall(bytes(sendArray))
         
 
         #print(event);
@@ -124,4 +149,4 @@ while not crashed:
     pygame.display.update();
     clock.tick(60);
 pygame.quit();
-quit();
+guit();
