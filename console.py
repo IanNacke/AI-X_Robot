@@ -1,10 +1,13 @@
 import io
 import socket
 import pygame
+import sys
+from PIL import Image
+import time
 
 #Socket stuff, host and port for our pi
-host = '172.20.10.7';
-port = 65432;
+host = '10.0.0.103';
+port = 5432;
 #SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
 #SOCKET.connect((host,port));
 pygame.init();
@@ -34,6 +37,11 @@ sImg = pygame.image.load('s.png');
 sDownImg = pygame.image.load('sDown.png');
 dImg = pygame.image.load('d.png');
 dDownImg = pygame.image.load('dDown.png');
+image = pygame.image
+previousimage = pygame.image
+FPS =0
+fStart = time.time()
+fEnd = time.time()
 #declaring the fucntion for each key which either displays the normal key image
 # or the image of it toggled depending on variable <letter>down
 #displays at passed in coordinates
@@ -160,6 +168,16 @@ while not crashed:
         #SOCKET.sendall(bytes(sendArray))
     # |||
     # VVV testing for image stream
+    recieved = []
+    while True:
+        recvd_data = clientsocket.recv(230400)
+        if not recvd_data:
+            break
+        else:
+            received.append(recvd_data)
+    dataset = b''.join(received)
+    image = pygame.image.fromstring(dataset,(160,120),"RGB") # convert received image from string
+    output = pygame.transform.scale(image, (width, height))
     frame = pygame.image.load('frame.jpg')
     # sets background to white
     gameDisplay.fill(white);
