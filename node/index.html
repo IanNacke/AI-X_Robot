@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <title>RDS</title>
+      <style>
+      	* { margin: 0; padding: 0; box-sizing: border-box; }
+      	body { font: 13px Helvetica, Arial; margin: 2px; }
+      	form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      	#messages { list-style-type: none; margin: 0; padding: 0; }
+      	#messages li { padding: 5px 10px; }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+	var canSend = true;
+
+	  $(function () {
+	    var socket = io();
+	    $('form').submit(function(e){
+	      e.preventDefault(); // prevents page reloading
+	      var msg = $('#m').val();
+	      socket.emit('client message', msg);
+	      $('#m').val('');
+	      canSend = false;
+	      $('#messages').append($('<li>').text('$' + msg));
+	      scrollBottom();
+	      return false;
+	    });
+	    socket.on('pi message', function(msg){
+	      $('#messages').append($('<li>').text(msg));
+	      canSend = true;
+	      scrollBottom()
+	    });
+	  });
+
+	function scrollBottom()
+	{
+		window.scrollTo(0,document.body.scrollHeight);		
+	}
+   </script>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form action="">
+      $ <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+  </body>
+</html>
