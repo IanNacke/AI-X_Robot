@@ -7,7 +7,7 @@ socket.emit('pi message', "pi is connected!");
 socket.on('client message', function(msg){
 	console.log("CLIENT: "+msg);
 	child = exec(msg, function (error, stdout, stderr) {
-		socket.emit('pi message', stdout);
+		socket.emit('pi message', stdout + stderr);
 	});
 });
 
