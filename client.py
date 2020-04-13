@@ -4,7 +4,7 @@ import sys
 from PIL import Image
 import time
 
-host = "10.0.0.103"
+host = "10.0.0.101"
 port=5432
 width = 320*3
 height = 240*3
@@ -20,10 +20,9 @@ while True:
     clientsocket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientsocket.connect((host, port))
     received = []
-    fStart = time.time()
+    #fStart = time.time()
     # loop .recv, it returns empty string when done, then transmitted data is completely received
     while True:
-        #print("esperando receber dado")
         recvd_data = clientsocket.recv(230400)
         if not recvd_data:
             break
@@ -35,8 +34,8 @@ while True:
     output = pygame.transform.scale(image, (width, height))
     screen.blit(output,(0,0)) # "show image" on the screen
     pygame.display.update()
-    fEnd = time.time()
-    print(str(int(1/(fEnd-fStart))) + " FPS")
+    #fEnd = time.time()
+    #print(str(int(1/(fEnd-fStart))) + " FPS")
 
     # check for quit events
     for event in pygame.event.get():
