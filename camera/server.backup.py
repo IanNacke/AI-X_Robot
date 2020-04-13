@@ -8,7 +8,7 @@ from pygame.locals import *
 sys.stdout.write("Helloo worldddd \n")
 #Create server:
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(('10.0.0.103',5000))
+server.bind(('10.0.0.101',5000))
 server.listen(5)
 
 #Start Pygame
