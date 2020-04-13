@@ -4,8 +4,9 @@ import sys
 from PIL import Image
 import time
 
-host = "10.0.0.101"
+host = "10.0.0.146"
 port=5432
+#textport=6543
 width = 320*3
 height = 240*3
 screen = pygame.display.set_mode((width,height),0)
@@ -19,6 +20,10 @@ fEnd = time.time()
 while True:
     clientsocket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientsocket.connect((host, port))
+    
+#    textsocket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#    textsocket.connect((host, textport))
+    
     received = []
     #fStart = time.time()
     # loop .recv, it returns empty string when done, then transmitted data is completely received
@@ -28,7 +33,8 @@ while True:
             break
         else:
             received.append(recvd_data)
-
+#    print(str(textsocket.recv(230400)))
+#    textsocket.send("hello from computer")
     dataset = b''.join(received)
     image = pygame.image.fromstring(dataset,(160,120),"RGB") # convert received image from string
     output = pygame.transform.scale(image, (width, height))
