@@ -20,6 +20,11 @@ io.on('connection', function(socket){
     console.log("pi: "+msg);
     io.emit('pi message', msg);
   });
+
+  socket.on('pi image data', function(msg){
+    console.log("pi: "+msg);
+    io.emit('pi message', msg);
+  });
 });
 
 http.listen(6543, function(){

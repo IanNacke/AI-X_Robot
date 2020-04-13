@@ -33,7 +33,7 @@
 	    });
 	    socket.on('pi message', function(msg){
 	      receiveTime = new Date().getTime();
-	      $('#messages').append($('<li>').text("[in " + (receiveTime-sendTime) + "milliseconds]\n"+msg));
+	      $('#messages').append($('<li>').text("[in " + (receiveTime-sendTime) + " milliseconds] "+msg));
 	      console.log("pi: " + msg);
 	      canSend = true;
 	      scrollBottom()
