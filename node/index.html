@@ -21,7 +21,7 @@
 	      if(canSend)
 	      {
 	      	var msg = $('#m').val();
-	      	socket.emit('client message', msg);
+	      	socket.emit('client message', new Date().getTime()+"|"+msg);
 	      	$('#m').val('');
 	      	canSend = false;
 	      	scrollBottom();

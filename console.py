@@ -6,10 +6,10 @@ from PIL import Image
 import time
 
 #Socket stuff, host and port for our pi
-host = '10.0.0.103';
-port = 5432;
-#SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
-#SOCKET.connect((host,port));
+host = '10.0.0.101';
+port = 65432;
+SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+SOCKET.connect((host,port));
 pygame.init();
 
 # trying to figure out image_stream-this doesn't really do much yet
@@ -18,6 +18,10 @@ image_stream = io.BytesIO();
 #setting the variables for the UI, getting width height and setting colors
 width = 1200;
 height = 800;
+
+streamWidth = 320*2;
+streamHeight = 240*2;
+
 black = (0,0,0);
 white = (255,255,255);
 #starting the game display
@@ -109,6 +113,9 @@ def button(x,y):
     return down;
 # the loop
 while not crashed:
+    clientsocket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientsocket.connect((host, port))
+    
     # gets all the events
     for event in pygame.event.get():
         #sets <letter>ButtonDown to the boolean from button for each key
@@ -165,20 +172,12 @@ while not crashed:
         elif not dButtonDown and not dKeyDown:
             dDown = False;
             sendArray[3] = 0;
-        #SOCKET.sendall(bytes(sendArray))
+        print("sending bytesarray " + str(sendArray[0])+str(sendArray[1])+str(sendArray[2])+str(sendArray[3]))
+        SOCKET.sendall(bytes(sendArray))
     # |||
     # VVV testing for image stream
-    recieved = []
-    while True:
-        recvd_data = clientsocket.recv(230400)
-        if not recvd_data:
-            break
-        else:
-            received.append(recvd_data)
-    dataset = b''.join(received)
-    image = pygame.image.fromstring(dataset,(160,120),"RGB") # convert received image from string
-    output = pygame.transform.scale(image, (width, height))
-    frame = pygame.image.load('frame.jpg')
+            
+        
     # sets background to white
     gameDisplay.fill(white);
     # puts all the keys on the board
@@ -187,7 +186,6 @@ while not crashed:
     s(xS,yS,sDown);
     d(xD,yD,dDown);
     #again testing VVV
-    gameDisplay.blit(frame, (width*0.4,0));
     #updates the screen
     pygame.display.update();
     #tells pygame how many frames per second to run at, caluclates how many miliseconds between each frame
