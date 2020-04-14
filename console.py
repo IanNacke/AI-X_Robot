@@ -6,11 +6,12 @@ from PIL import Image
 import time
 
 #Socket stuff, host and port for our pi
-host = '10.0.0.101';
-port = 65432;
+host = '10.0.0.141';
+port = 6432;
 SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
 SOCKET.connect((host,port));
 pygame.init();
+
 
 # trying to figure out image_stream-this doesn't really do much yet
 image_stream = io.BytesIO();
@@ -188,6 +189,8 @@ while not crashed:
     #again testing VVV
     #updates the screen
     pygame.display.update();
+    server_image_data = client.recv(4096)
+    print(server_image_data)
     #tells pygame how many frames per second to run at, caluclates how many miliseconds between each frame
     clock.tick(fps);
 # closes pygame
