@@ -1,4 +1,9 @@
+import RPi.GPIO as GPIO
+import time
 import socket
+import pygame
+import pygame.camera
+import sys
 motorForward = 2
 motorBackward = 3
 
