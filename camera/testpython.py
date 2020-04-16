@@ -55,6 +55,10 @@ def parseMotorMessage(data):
         GPIO.output(motorForward, 0)
         GPIO.output(motorBackward, 1)
         print('Backward and Right!')
+    else:
+        GPIO.output(motorForward, 0)
+        GPIO.output(motorBackward, 0)
+        print('Not moving')
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serv.bind(('10.0.0.146', 6432))
