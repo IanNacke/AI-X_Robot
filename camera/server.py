@@ -10,7 +10,7 @@ pygame.init()
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-serversocket.bind(("10.0.0.146",port))
+serversocket.bind(("10.0.0.217",port))
 serversocket.listen(1)
 
 #textsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
