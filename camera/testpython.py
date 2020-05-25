@@ -1,4 +1,9 @@
+import RPi.GPIO as GPIO
+import time
 import socket
+import pygame
+import pygame.camera
+import sys
 motorForward = 2
 motorBackward = 3
 
@@ -11,23 +16,54 @@ def setupPins():
     # Start both pins at LOW, which stops the motor from moving
     GPIO.output(motorForward, 0)
     GPIO.output(motorBackward, 0)
+def isOn(data):
+    if data == 1:
+        return true
+    else:
+        return false
 
 def parseMotorMessage(data):
     return
-    forward = data[0]
-    backward = data[2]
-    if not (forward ^ backward): # XOR
-        GPIO.output(motorForward, 0)
-        GPIO.output(motorBackward, 0)
-        print('Stop!')
-    elif data[0] == 1:
+    forward = isOn(data[0])
+    backward = isOn(data[2])
+    left = isOn(data[1])
+    right = isOn(data[3])
+    if forward and not backward and not left and not right: # XOR
         GPIO.output(motorForward, 1)
         GPIO.output(motorBackward, 0)
         print('Forward!')
-    elif data[2] == 1:
+    elif not forward and backward and left and not right:
         GPIO.output(motorForward, 0)
         GPIO.output(motorBackward, 1)
         print('Backward!')
+    elif not forward and not backward and left and not right:
+        GPIO.output(motorForward, 1)
+        GPIO.output(motorBackward, 0)
+        print('Left!')
+    elif not forward and not backward and not left and right:
+        GPIO.output(motorForward, 0)
+        GPIO.output(motorBackward, 1)
+        print('Right!')
+    elif forward and left and not backward and not right:
+        GPIO.output(motorForward, 1)
+        GPIO.output(motorBackward, 0)
+        print('Forward and Left!')
+    elif forward and right and not backward and not left:
+        GPIO.output(motorForward, 0)
+        GPIO.output(motorBackward, 0)
+        print('Forward and Right!')
+    elif backward and left and not forward and not right:
+        GPIO.output(motorForward, 0)
+        GPIO.output(motorBackward, 0)
+        print('Backward and Left!')
+    elif backward and right and not forward and not left:
+        GPIO.output(motorForward, 0)
+        GPIO.output(motorBackward, 1)
+        print('Backward and Right!')
+    else:
+        GPIO.output(motorForward, 0)
+        GPIO.output(motorBackward, 0)
+        print('Not moving')
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serv.bind(('10.0.0.146', 6432))
@@ -41,8 +77,8 @@ while True:
         if not data: break
 
         from_client += data
-        print from_client
+        print (from_client)
         parseMotorMessage(data)
         conn.send("server image data")
     conn.close()
-    print 'client disconnected'
+    print ('client disconnected')
