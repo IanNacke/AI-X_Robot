@@ -1,15 +1,9 @@
 import io
-import socket
 import pygame
 import sys
 from PIL import Image
 import time
 
-#Socket stuff, host and port for our pi
-host = '10.0.0.141';
-port = 6432;
-SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
-SOCKET.connect((host,port));
 pygame.init();
 
 
@@ -113,10 +107,7 @@ def button(x,y):
         down = False;
     return down;
 # the loop
-while not crashed:
-    clientsocket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    clientsocket.connect((host, port))
-    
+while not crashed:    
     # gets all the events
     for event in pygame.event.get():
         #sets <letter>ButtonDown to the boolean from button for each key
@@ -173,11 +164,8 @@ while not crashed:
         elif not dButtonDown and not dKeyDown:
             dDown = False;
             sendArray[3] = 0;
-        print("sending bytesarray " + str(sendArray[0])+str(sendArray[1])+str(sendArray[2])+str(sendArray[3]))
-        SOCKET.sendall(bytes(sendArray))
     # |||
     # VVV testing for image stream
-            
         
     # sets background to white
     gameDisplay.fill(white);
@@ -189,8 +177,6 @@ while not crashed:
     #again testing VVV
     #updates the screen
     pygame.display.update();
-    server_image_data = client.recv(4096)
-    print(server_image_data)
     #tells pygame how many frames per second to run at, caluclates how many miliseconds between each frame
     clock.tick(fps);
 # closes pygame
