@@ -1,7 +1,7 @@
-var sys = require(sys);
-var exec = require(child_process).exec;
-var socket = require(socket.io-client)("http://1920.lakeside-cs.org:6544/");
-var path = "~"
+var sys = require("sys");
+var exec = require("child_process").exec;
+var socket = require("socket.io-client")("http://1920.lakeside-cs.org:6544/");
+var path = "~";
 
 socket.emit("pi message", "pi is connected!");
 socket.emit("path message", "path");
