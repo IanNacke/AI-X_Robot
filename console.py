@@ -12,7 +12,7 @@ ssh_client.connect(hostname='1920.lakeside-cs.org',username='student1920',passwo
 ftp_client=ssh_client.open_sftp()
 
 imagename=str('webcamshot.jpg')
-localpath=str(str(pathlib.Path().absolute())+"/"+imagename)
+localpath=str(str(pathlib.Path().absolute())+"\\"+imagename)
 remotepath=str('/home/student1920/1920.lakeside-cs.org/public/Pall-Pareek/CS5Project/camera'+"/"+imagename)
 
 pygame.init();
@@ -74,6 +74,8 @@ def d(x,y,aDown):
         gameDisplay.blit(dDownImg,(x,y));
     else:
         gameDisplay.blit(dImg, (x,y));
+def videoImg(x,y,image):
+    gameDisplay.blit(image,(x,y));
 #setting the variables for where the keys are going to go on the screen
 # and setting the down variables to false
 xW = int((width*0.48));
@@ -178,6 +180,8 @@ while not crashed:
     # VVV testing for image stream
     
     ftp_client.get(remotepath, localpath);
+    videoImg = pygame.image.load(imagename);
+    #print(localpath);
     
     # sets background to white
     gameDisplay.fill(white);
@@ -186,6 +190,8 @@ while not crashed:
     a(xA,yA,aDown);
     s(xS,yS,sDown);
     d(xD,yD,dDown);
+    videoImage(100,100,videoImg);
+    #videoImage()
     #again testing VVV
     #updates the screen
     pygame.display.update();
