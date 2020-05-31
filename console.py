@@ -74,7 +74,7 @@ def d(x,y,aDown):
         gameDisplay.blit(dDownImg,(x,y));
     else:
         gameDisplay.blit(dImg, (x,y));
-def videoImg(x,y,image):
+def videoImage(x,y,image):
     gameDisplay.blit(image,(x,y));
 #setting the variables for where the keys are going to go on the screen
 # and setting the down variables to false
@@ -178,9 +178,12 @@ while not crashed:
             sendArray[3] = 0;
     # |||
     # VVV testing for image stream
-    
-    ftp_client.get(remotepath, localpath);
-    videoImg = pygame.image.load(imagename);
+    videoImg = pygame.image.load("Untitled.png");
+    ftp_client.get(remotepath, imagename);
+    try: 
+        videoImg = pygame.image.load(imagename);
+    except:
+        print("whoops");
     #print(localpath);
     
     # sets background to white
