@@ -4,7 +4,7 @@ import sys
 from PIL import Image
 import time
 
-host = "10.0.0.146"
+host = "10.0.0.217"
 port=5432
 #textport=6543
 width = 320*3
