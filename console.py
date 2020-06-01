@@ -3,9 +3,19 @@ import pygame
 import sys
 from PIL import Image
 import time
+import paramiko
+import pathlib
+
+ssh_client=paramiko.SSHClient()
+ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh_client.connect(hostname='1920.lakeside-cs.org',username='student1920',password='m545CS41920')
+ftp_client=ssh_client.open_sftp()
+
+imagename=str('webcamshot.jpg')
+localpath=str(str(pathlib.Path().absolute())+"\\"+imagename)
+remotepath=str('/home/student1920/1920.lakeside-cs.org/public/Pall-Pareek/CS5Project/camera'+"/"+imagename)
 
 pygame.init();
-
 
 # trying to figure out image_stream-this doesn't really do much yet
 image_stream = io.BytesIO();
@@ -64,6 +74,8 @@ def d(x,y,aDown):
         gameDisplay.blit(dDownImg,(x,y));
     else:
         gameDisplay.blit(dImg, (x,y));
+def videoImage(x,y,image):
+    gameDisplay.blit(image,(x,y));
 #setting the variables for where the keys are going to go on the screen
 # and setting the down variables to false
 xW = int((width*0.48));
@@ -166,7 +178,14 @@ while not crashed:
             sendArray[3] = 0;
     # |||
     # VVV testing for image stream
-        
+    videoImg = pygame.image.load("Untitled.png");
+    ftp_client.get(remotepath, imagename);
+    try: 
+        videoImg = pygame.image.load(imagename);
+    except:
+        print("whoops");
+    #print(localpath);
+    
     # sets background to white
     gameDisplay.fill(white);
     # puts all the keys on the board
@@ -174,6 +193,8 @@ while not crashed:
     a(xA,yA,aDown);
     s(xS,yS,sDown);
     d(xD,yD,dDown);
+    videoImage(100,100,videoImg);
+    #videoImage()
     #again testing VVV
     #updates the screen
     pygame.display.update();
@@ -181,6 +202,3 @@ while not crashed:
     clock.tick(fps);
 # closes pygame
 pygame.quit();
-#calls undefined function to force kill the program
-# am currently looking for more elgant way of doing this without a prompted message
-guit();
