@@ -15,9 +15,9 @@ sio.connect('http://1920.lakeside-cs.org:6544/')
 def controls(data):
 	print(data)
 
-#ssh_client=paramiko.SSHClient()
-#ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-#ssh_client.connect(hostname='1920.lakeside-cs.org',username='student1920',password='m545CS41920')
+ssh_client=paramiko.SSHClient()
+ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh_client.connect(hostname='1920.lakeside-cs.org',username='student1920',password='m545CS41920')
 
 controlsname="controlinfo"
 imagename=str('webcamshot.jpg')
@@ -35,17 +35,14 @@ if webcam is None:
 else:
 	sys.stdout.write("webcam is real \n")
 
-#ftp_client=ssh_client.open_sftp()
+ftp_client=ssh_client.open_sftp()
 while True:
 	img = webcam.get_image()
-	data = pygame.image.tostring(img,"RGB")
-	sio.emit('image message', data)
-	#pygame.image.save(img, imagename)
-	#ftp_client.put(localpath+"/"+imagename, remotepath+"/"+imagename)
-	#ftp_client.get(remotepath+"/"+controlsname, localpath+"/"+controlsname)
+	pygame.image.save(img, imagename)
+	ftp_client.put(localpath+"/"+imagename, remotepath+"/"+imagename)
+	ftp_client.get(remotepath+"/"+controlsname, localpath+"/"+controlsname)
 	frames=frames+1
 	print(frames)
 	time.sleep(0.1)
 
-#ftp_client.close()
-
+ftp_client.close()
